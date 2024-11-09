@@ -1,7 +1,7 @@
 #include <cstdio>
 
-// #define LEN 4000000
-#define LEN 10
+#define LEN 4000000
+// #define LEN 5
 
 int pre[LEN], in[LEN], post[LEN];
 
@@ -44,6 +44,12 @@ void build_tree(int in_left, int in_right,
 {
     if (in_left >= in_right)
         return;
+
+    if (in_left == in_right-1)
+    {
+        in[in_left] = pre[pre_left];
+        return;
+    }
 
     int root = pre[pre_left];
     int left = pre[pre_left + 1];
