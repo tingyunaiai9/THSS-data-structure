@@ -17,94 +17,83 @@ int main()
         num[(int)(balls[i] - 'A')]++;
     }
 
-    int count_a = 0, count_b = 0;
-    int count_c_dealed = 0;
-
     if (num[0] <= num[1]) // A <= B
     {
         int k = num[1] - num[0];
         int M = num[2];
 
-        for (int i=0; i<n; i++)
+        if (k > M)
         {
-            if (balls[i] == 'A')
-                count_a++;
-            else if (balls[i] == 'B')
-                count_b++;
-            else // C
-            {
-                if (count_c_dealed < k)
-                {
-                    count_c_dealed++;
-                    balls[i] = 'A';
-                    count_a++;
-                }
-                else if (count_c_dealed < k + (M-k)/2)
-                {
-                    count_c_dealed++;
-                    balls[i] = 'A';
-                    count_a++;
-                }
-                else
-                {
-                    count_c_dealed++;
-                    if (count_c_dealed >= (k + (M-k)/2 + (M-k)%2))
-                    {
-                        balls[i] = 'B';
-                        count_b++;
-                    }
-                }
+            printf("False\n");
+            return 0;
+        }
 
+        int count_c_dealed = 0;
+        for (int i=0; count_c_dealed < k + (M-k)/2; i++)
+        {
+            if (balls[i] == 'C')
+            {
+                balls[i] = 'A';
+                count_c_dealed++;
             }
-
-            if (count_b > count_a)
+        }
+        count_c_dealed = 0;
+        for (int i=n-1; count_c_dealed < (M-k)/2; i--)
+        {
+            if (balls[i] == 'C')
             {
-                printf("False\n");
-                return 0;
+                balls[i] = 'B';
+                count_c_dealed++;
             }
         }
     }
-    else // A > B
+    else // A>B
     {
         int k = num[0] - num[1];
         int M = num[2];
 
-        for (int i=0; i<n; i++)
+        if (k > M)
         {
-            if (balls[i] == 'A')
-                count_a++;
-            else if (balls[i] == 'B')
-                count_b++;
-            else // C
-            {
-                if (count_c_dealed < (M-k)/2)
-                {
-                    count_c_dealed++;
-                    balls[i] = 'A';
-                    count_a++;
-                }
-                else if (count_c_dealed < M-k)
-                {
-                    count_c_dealed++;
-                    if (count_c_dealed > (M-k)/2 + (M-k)%2)
-                    {
-                        balls[i] = 'B';
-                        count_b++;
-                    }
-                }
-                else
-                {
-                    count_c_dealed++;
-                    balls[i] = 'B';
-                    count_b++;
-                }
-            }
+            printf("False\n");
+            return 0;
+        }
 
-            if (count_b > count_a)
+        int count_c_dealed = 0;
+        for (int i=n-1; count_c_dealed < k + (M-k)/2; i--)
+        {
+            if (balls[i] == 'C')
             {
-                printf("False\n");
-                return 0;
+                balls[i] = 'B';
+                count_c_dealed++;
             }
+        }
+        count_c_dealed = 0;
+        for (int i=0; count_c_dealed < (M-k)/2; i++)
+        {
+            if (balls[i] == 'C')
+            {
+                balls[i] = 'A';
+                count_c_dealed++;
+            }
+        }
+    }
+
+    int count_a = 0, count_b = 0;
+    for (int i=0; i<n; i++)
+    {
+        if (balls[i] == 'A')
+        {
+            count_a++;
+        }
+        else if (balls[i] == 'B')
+        {
+            count_b++;
+        }
+
+        if (count_b > count_a)
+        {
+            printf("False\n");
+            return 0;
         }
     }
 
